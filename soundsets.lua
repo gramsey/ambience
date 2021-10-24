@@ -30,10 +30,10 @@ ambience.add_set("underwater", {
 if minetest.settings:get_bool("ambience_water_move") ~= false then
 
 -- override default water sounds
-minetest.override_item("default:water_source", { sounds = {} })
-minetest.override_item("default:water_flowing", { sounds = {} })
-minetest.override_item("default:river_water_source", { sounds = {} })
-minetest.override_item("default:river_water_flowing", { sounds = {} })
+minetest.override_item("water:source", { sounds = {} })
+minetest.override_item("water:flowing", { sounds = {} })
+minetest.override_item("water:river_source", { sounds = {} })
+minetest.override_item("water:river_flowing", { sounds = {} })
 
 ambience.add_set("splash", {
 
@@ -72,11 +72,11 @@ ambience.add_set("flowing_water", {
 		{name = "waterfall", length = 6}
 	},
 
-	nodes = {"default:water_flowing"},
+	nodes = {"water:flowing"},
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:water_flowing"] or 0)
+		local c = (def.totals["water:flowing"] or 0)
 
 		if c > 40 then
 			return "flowing_water", 0.5
@@ -97,11 +97,11 @@ ambience.add_set("river", {
 		{name = "river", length = 4, gain = 0.1}
 	},
 
-	nodes = {"default:river_water_flowing"},
+	nodes = {"water:river_flowing"},
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:river_water_flowing"] or 0)
+		local c = (def.totals["water:river_flowing"] or 0)
 
 		if c > 20 then
 			return "river", 0.5
@@ -122,12 +122,12 @@ ambience.add_set("lava", {
 		{name = "lava", length = 7}
 	},
 
-	nodes = {"default:lava_source", "default:lava_flowing"},
+	nodes = {"lava:source", "lava:flowing"},
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:lava_source"] or 0)
-			+ (def.totals["default:lava_flowing"] or 0)
+		local c = (def.totals["lava:source"] or 0)
+			+ (def.totals["lava:flowing"] or 0)
 
 		if c > 20 then
 			return "lava", 0.5
@@ -219,11 +219,11 @@ ambience.add_set("beach", {
 		{name = "beach_2", length = 6}
 	},
 
-	nodes = {"default:water_source"},
+	nodes = {"water:source"},
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:water_source"] or 0)
+		local c = (def.totals["water:source"] or 0)
 
 		if def.pos.y < 6 and def.pos.y > 0 and c > 150 then
 			return "beach"
@@ -243,11 +243,11 @@ ambience.add_set("ice", {
 		{name = "wind", length = 9}
 	},
 
-	nodes = {"default:ice"},
+	nodes = {"snow:ice"},
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:ice"] or 0)
+		local c = (def.totals["snow:ice"] or 0)
 
 		if c > 100 then
 			return "ice"
@@ -267,12 +267,12 @@ ambience.add_set("desert", {
 		{name = "desertwind", length = 8}
 	},
 
-	nodes = {"default:desert_sand", "default:sand"},
+	nodes = {"sand:desert", "sand:sand"},
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:desert_sand"] or 0)
-			+ (def.totals["default:sand"] or 0)
+		local c = (def.totals["sand:desert"] or 0)
+			+ (def.totals["sand:sand"] or 0)
 
 		if c > 150 and def.pos.y > 10 then
 			return "desert"
@@ -293,7 +293,7 @@ ambience.add_set("cave", {
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:water_source"] or 0)
+		local c = (def.totals["water:source"] or 0)
 
 		if c > 0 and def.pos.y < -25 then
 			return "cave"
@@ -315,11 +315,11 @@ ambience.add_set("jungle", {
 		{name = "peacock", length = 2, ephemeral = true}
 	},
 
-	nodes = {"default:jungletree"},
+	nodes = {"jungle:tree"},
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:jungletree"] or 0)
+		local c = (def.totals["jungle:tree"] or 0)
 
 		if def.tod > 0.2 and def.tod < 0.8 and c > 90 then
 			return "jungle"
@@ -343,7 +343,7 @@ ambience.add_set("jungle_night", {
 	sound_check = function(def)
 
 		-- jungle tree was added in last set, so doesnt need to be added in this one
-		local c = (def.totals["default:jungletree"] or 0)
+		local c = (def.totals["jungle:tree"] or 0)
 
 		if (def.tod < 0.2 or def.tod > 0.8) and c > 90 then
 			return "jungle_night"
@@ -374,10 +374,10 @@ ambience.add_set("day", {
 	sound_check = function(def)
 
 		-- we used group:leaves but still need to specify actual nodes for total
-		local c = (def.totals["default:leaves"] or 0)
+		local c = (def.totals["apple:leaves"] or 0)
 			+ (def.totals["default:bush_leaves"] or 0)
-			+ (def.totals["default:pine_needles"] or 0)
-			+ (def.totals["default:aspen_leaves"] or 0)
+			+ (def.totals["pine:needles"] or 0)
+			+ (def.totals["aspen:leaves"] or 0)
 
 		if (def.tod > 0.2 and def.tod < 0.8)
 		and def.pos.y > -10
@@ -404,10 +404,10 @@ ambience.add_set("night", {
 	sound_check = function(def)
 
 		-- leaves were added in last set, so don't need to be added to this one
-		local c = (def.totals["default:leaves"] or 0)
+		local c = (def.totals["apple:leaves"] or 0)
 			+ (def.totals["default:bush_leaves"] or 0)
-			+ (def.totals["default:pine_needles"] or 0)
-			+ (def.totals["default:aspen_leaves"] or 0)
+			+ (def.totals["pine:needles"] or 0)
+			+ (def.totals["aspen:leaves"] or 0)
 
 		if (def.tod < 0.2 or def.tod > 0.8)
 		and def.pos.y > -10
@@ -428,11 +428,11 @@ ambience.add_set("high_up", {
 		{name = "wind", length = 9}
 	},
 
-	nodes = {"default:snowblock"},
+	nodes = {"snow:block"},
 
 	sound_check = function(def)
 
-		local c = (def.totals["default:snowblock"] or 0)
+		local c = (def.totals["snow:block"] or 0)
 
 		if def.pos.y > 50 or c > 150 then
 			return "high_up"

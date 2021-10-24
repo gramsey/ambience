@@ -23,7 +23,7 @@ ambience.add_set(set_name, def)
         'player' player userdata
         'pos' position of player
         'tod' time of day
-        'totals' totals for each node e.g. def.totals["default:sand"]
+        'totals' totals for each node e.g. def.totals["sand:sand"]
         'positions' position data for every node found
         'head_node' name of node at player head level
         'feet_node' nameof node at player foot level
@@ -35,14 +35,14 @@ e.g.
 
 ambience.add_set("windy", {
 	frequency = 500,
-	nodes = {"default:sand"},
+	nodes = {"sand:sand"},
 	sounds = {
 		{name = "wind", length = 9, gain = 0.3},
 		{name = "desertwind", length = 8, gain = 0.3},
 		{name = "crow", length = 3, ephemeral = true},
 	},
 	sound_check = function(def)
-		local number = totals["default:sand"] or 0 -- yep, can also be nil
+		local number = totals["sand:sand"] or 0 -- yep, can also be nil
 		if number > 20 then
 			return "windy", 0.2 -- return set to play and optional gain volume
 		end
